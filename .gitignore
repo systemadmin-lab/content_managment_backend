@@ -5,10 +5,10 @@ node_modules/
 dist/
 
 # Environment variables
-.env
+# .env
 
 # Documentation (as requested)
-docs/
+# docs/
 
 # Logs
 *.log
