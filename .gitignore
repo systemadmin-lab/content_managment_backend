@@ -5,11 +5,11 @@ node_modules/
 dist/
 
 # Environment variables
-# .env
+ .env
 
-# Documentation (as requested)
-# docs/
-
+# Documentation
+ docs
+ *.md
 # Logs
 *.log
 npm-debug.log*

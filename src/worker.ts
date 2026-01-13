@@ -1,11 +1,4 @@
-/**
- * Worker Process for Content Generation Queue
- * 
- * This is a separate Node.js process that monitors the Redis queue
- * and processes content generation jobs after the 1-minute delay.
- * 
- * Run with: npm run worker
- */
+
 
 import { Job, Worker } from 'bullmq';
 import dotenv from 'dotenv';

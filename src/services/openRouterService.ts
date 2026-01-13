@@ -64,6 +64,8 @@ export async function generateContent(request: ContentGenerationRequest): Promis
         throw new Error('OPENROUTER_KEY is not configured');
     }
 
+   
+
     const systemPrompt = getSystemPrompt(request.contentType);
 
     const response = await fetch(`${baseUrl}/chat/completions`, {
@@ -71,7 +73,7 @@ export async function generateContent(request: ContentGenerationRequest): Promis
         headers: {
             'Authorization': `Bearer ${apiKey}`,
             'Content-Type': 'application/json',
-            'HTTP-Referer': process.env.APP_URL || 'http://localhost:3000',
+            'HTTP-Referer': 'http://localhost:5000',
             'X-Title': 'Smart Content Generator'
         },
         body: JSON.stringify({
@@ -93,6 +95,16 @@ export async function generateContent(request: ContentGenerationRequest): Promis
 
     if (!response.ok) {
         const errorText = await response.text();
+        console.error('❌ OpenRouter API Error:');
+        console.error('Status:', response.status);
+        console.error('Status Text:', response.statusText);
+        console.error('Error Response:', errorText);
+        console.error('Request Headers:', {
+            'Authorization': `Bearer ${apiKey.substring(0, 10)}...`,
+            'Content-Type': 'application/json',
+            'HTTP-Referer': 'http://localhost:5000',
+            'X-Title': 'Smart Content Generator'
+        });
         throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
     }
 

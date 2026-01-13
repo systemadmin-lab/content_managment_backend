@@ -15,18 +15,18 @@ export function getRedisConnectionConfig(): RedisOptions {
 // Lazy-initialized queue instance
 let _contentGenerationQueue: Queue | null = null;
 
-// Get the content generation queue (creates it on first call)
+// content generation queue will be created on first call
 export function getContentGenerationQueue(): Queue {
     if (!_contentGenerationQueue) {
         _contentGenerationQueue = new Queue('content-generation', {
             connection: getRedisConnectionConfig(),
             defaultJobOptions: {
-                attempts: 3, // Retry failed jobs up to 3 times
+                attempts: 3, 
                 backoff: {
                     type: 'exponential',
                     delay: 1000
                 },
-                removeOnComplete: false, // Keep completed jobs for status tracking
+                removeOnComplete: false, 
                 removeOnFail: false
             }
         });
@@ -42,5 +42,5 @@ export interface ContentGenerationJobData {
     jobId: string;
 }
 
-// Delay constant (1 minute)
-export const JOB_DELAY_MS = 60000;
+// job delay time (5 seconds for testing - change to 60000 for production)
+export const JOB_DELAY_MS = 5000;

@@ -1,8 +1,8 @@
-# AI Content Generator Backend
+# AI Content Generator Backend for env you. can check your email
 
 A robust backend service for an AI-powered content generation application. This project features a job queue system for asynchronous processing, real-time updates via WebSockets, and integration with the OpenRouter API for generating high-quality text content.
 
-## 🚀 Project Overview
+##  Project Overview
 
 This backend handles user authentication, content management, and the core AI generation workflow. It is designed to handle long-running AI tasks efficiently by offloading them to a Redis-based queue (BullMQ).
 
@@ -24,7 +24,7 @@ This backend handles user authentication, content management, and the core AI ge
 *   **LLM AI Provider**: OpenRouter API
 *   **Real-time Communication**: Socket.IO
 
-## ⚙️ Architecture & Decisions
+##  Architecture & Decisions
 
 ### Why a Queue System?
 AI content generation can take time (from a few seconds to a minute). Handling this synchronously in the HTTP request would block the client and lead to timeouts. We chose **BullMQ** (built on Redis) to:
@@ -99,7 +99,7 @@ OPENROUTER_MODEL=google/gemini-2.0-flash-exp:free
 To run both the API server and the Queue Worker simultaneously:
 
 ```bash
-npm run dev:all
+npm run dev
 ```
 
 *   **API Server**: http://localhost:3000
