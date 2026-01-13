@@ -1,4 +1,4 @@
-# AI Content Generator Backend for env you. can check your email
+# AI Content Generator Backend 
 
 A robust backend service for an AI-powered content generation application. This project features a job queue system for asynchronous processing, real-time updates via WebSockets, and integration with the OpenRouter API for generating high-quality text content.
 
