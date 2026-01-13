@@ -40,7 +40,7 @@ The worker logic resides in `src/worker.ts`. It runs as a separate process from 
 ### Real-time Feedback
 Since generation is async, clients shouldn't have to poll for status. We use **Socket.IO** combined with Redis Pub/Sub. When the worker finishes a job, it publishes an event; the API server subscribes to this and forwards the notification to the specific connected user.
 
-## 📝 API Documentation
+##  API Documentation
 
 All routes (except auth) are protected and require a valid Bearer Token.
 
@@ -110,6 +110,6 @@ npm run dev:all
 *   `npm run worker:dev`: Run only the Queue Worker.
 *   `npm run build`: Compile TypeScript to JavaScript.
 
-## 🌐 Live Deployment
+##  Live Deployment
 
 [Link pending]
