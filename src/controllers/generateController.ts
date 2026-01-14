@@ -4,9 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { ContentGenerationJobData, getContentGenerationQueue, JOB_DELAY_MS } from '../config/queue';
 import Job from '../schemas/jobSchema';
 
-// @desc    Queue content generation job
-// @route   POST /generate-content
-// @access  Private
+
 export const queueContentGeneration = async (req: Request, res: Response) => {
     try {
         const { prompt, contentType } = req.body;
@@ -73,9 +71,7 @@ export const queueContentGeneration = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Get job status
-// @route   GET /generate-content/:jobId
-// @access  Private
+
 export const getJobStatus = async (req: Request, res: Response) => {
     try {
         const { jobId } = req.params;
@@ -102,13 +98,13 @@ export const getJobStatus = async (req: Request, res: Response) => {
             createdAt: job.createdAt
         };
 
-        // Include generated content if completed
+        
         if (job.status === 'completed' && job.generatedContent) {
             response.generatedContent = job.generatedContent;
             response.completedAt = job.completedAt;
         }
 
-        // Include error if failed
+        
         if ((job.status === 'error' || job.status === 'failed') && job.error) {
             response.error = job.error;
         }
@@ -121,9 +117,7 @@ export const getJobStatus = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Get all jobs for user
-// @route   GET /generate-content
-// @access  Private
+
 export const getUserJobs = async (req: Request, res: Response) => {
     try {
         if (!req.user) {
@@ -142,9 +136,7 @@ export const getUserJobs = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Save generated content to Content collection
-// @route   POST /generate-content/:jobId/save
-// @access  Private
+
 export const saveGeneratedContent = async (req: Request, res: Response) => {
     try {
         const { jobId } = req.params;
@@ -174,10 +166,9 @@ export const saveGeneratedContent = async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'No generated content available' });
         }
 
-        // Import Content model dynamically to avoid circular dependencies
         const Content = (await import('../schemas/contentSchema')).default;
 
-        // Create content entry
+        
         const content = await Content.create({
             userId: req.user._id as mongoose.Types.ObjectId,
             title: title || `Generated: ${job.prompt.substring(0, 50)}...`,

@@ -34,7 +34,7 @@ export function getContentGenerationQueue(): Queue {
     return _contentGenerationQueue;
 }
 
-// Job data interface
+
 export interface ContentGenerationJobData {
     userId: string;
     prompt: string;
@@ -42,5 +42,5 @@ export interface ContentGenerationJobData {
     jobId: string;
 }
 
-// job delay time (5 seconds for testing - change to 60000 for production)
+
 export const JOB_DELAY_MS = 5000;

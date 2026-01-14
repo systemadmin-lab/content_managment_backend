@@ -2,9 +2,7 @@ import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Content from '../schemas/contentSchema';
 
-// @desc    Get all contents with optional search
-// @route   GET /content
-// @access  Private
+
 export const getContents = async (req: Request, res: Response) => {
     try {
         const keyword = req.query.search
@@ -21,7 +19,7 @@ export const getContents = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'User not found' });
         }
 
-        // Ensure user only sees their own content
+        
         const contents = await Content.find({ ...keyword, userId: req.user._id as mongoose.Types.ObjectId }).sort({ createdAt: -1 });
         res.status(200).json(contents);
     } catch (error) {
@@ -30,9 +28,33 @@ export const getContents = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Create new content
-// @route   POST /content
-// @access  Private
+
+export const getContentById = async (req: Request, res: Response) => {
+    try {
+        const content = await Content.findById(req.params.id);
+
+        if (!content) {
+            return res.status(404).json({ message: 'Content not found' });
+        }
+
+        // Check for user
+        if (!req.user) {
+            return res.status(401).json({ message: 'User not found' });
+        }
+
+        // Make sure the logged in user matches the content user
+        if (content.userId.toString() !== (req.user._id as mongoose.Types.ObjectId).toString()) {
+            return res.status(401).json({ message: 'User not authorized' });
+        }
+
+        res.status(200).json(content);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+
 export const createContent = async (req: Request, res: Response) => {
     try {
         const { title, type, body } = req.body;
@@ -64,9 +86,7 @@ export const createContent = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Update content
-// @route   PUT /content/:id
-// @access  Private
+
 export const updateContent = async (req: Request, res: Response) => {
     try {
         const content = await Content.findById(req.params.id);
@@ -80,7 +100,7 @@ export const updateContent = async (req: Request, res: Response) => {
             return res.status(401).json({ message: 'User not found' });
         }
 
-        // Make sure the logged in user matches the content user
+        
         if (content.userId.toString() !== (req.user._id as mongoose.Types.ObjectId).toString()) {
             return res.status(401).json({ message: 'User not authorized' });
         }
@@ -98,9 +118,7 @@ export const updateContent = async (req: Request, res: Response) => {
     }
 };
 
-// @desc    Delete content
-// @route   DELETE /content/:id
-// @access  Private
+
 export const deleteContent = async (req: Request, res: Response) => {
     try {
         const content = await Content.findById(req.params.id);
@@ -109,12 +127,12 @@ export const deleteContent = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'Content not found' });
         }
 
-        // Check for user
+        
         if (!req.user) {
             return res.status(401).json({ message: 'User not found' });
         }
 
-        // Make sure the logged in user matches the content user
+        
         if (content.userId.toString() !== (req.user._id as mongoose.Types.ObjectId).toString()) {
             return res.status(401).json({ message: 'User not authorized' });
         }
